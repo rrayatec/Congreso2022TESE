@@ -1,7 +1,7 @@
-from flask import Flask, redirect, url_for, request, render_template, make_response, session, jsonify
+from flask import Flask, redirect, url_for, request, render_template, make_response, session, json, jsonify
 from werkzeug.exceptions import MethodNotAllowed
 from pymongo import MongoClient, cursor
-#from twilio.rest import Client
+# from twilio.rest import Client
 import pymongo
 import datetime
 from decouple import config
@@ -27,12 +27,13 @@ cuentas = db.reports
 # account_sid = config('account_sid')
 # auth_token = config('auth_token')
 # TwilioClient = Client(account_sid, auth_token)
+
 #############################################################
 
 
 @app.route("/", methods=['GET'])
 def home():
-    
+
     try:
         cursor = cuentas.find({})
         user = []
@@ -44,7 +45,25 @@ def home():
         return jsonify({"response": e})
 
 
-@app.route('/insert', methods=["POST"])
+@app.route("/graph", methods=['GET'])
+def graph():
+    try:
+        data = json.dumps([1.0, 2.0, 3.0, 3, 4, 5])
+        labels = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+        ]
+
+        return render_template("/graph.html", data=data, labels=labels)
+    except Exception as e:
+        return jsonify({"response": e})
+
+
+@ app.route('/insert', methods=["POST"])
 def insert():
 
     user = {
