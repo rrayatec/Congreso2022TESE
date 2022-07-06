@@ -67,7 +67,7 @@ def graph():
 def insert():
 
     intent = {
-        "intent": request.form['instent']
+        "intent": request.form['intent']
     }
     try:
         cuentas.insert_one(intent)
