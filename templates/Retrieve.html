@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Retrieved Data</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body style="padding: 40px">
+  <table class="table">
+    <tr>
+      <td><a class="nav-link" href="/">Home</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+      <th scope="col">Password</th>
+      <th scope="col">Edad</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      
+
+    </tr>
+    {% for i in data %}
+    <form method="POST" action="/update">
+      <tr>
+        <td><input type="text" name="Nombre" value="{{i.client_name}}"></td>
+        <td><input type="text" name="Apellido" value="{{i.last_name}}"></td>
+        <td><input type="password" name="password" value="{{i.password}}"></td>
+        <td><input type="password" name="age" value="{{i.age}}"></td>
+        <td><button type="submit" class="btn btn-primary">Update</button></td>
+    </form>
+    <td><a href="/delete/{{i.password}}"><button class="btn btn-primary">Delete</button></a></td>
+    </tr>
+
+    {% endfor %}
+  </table>
+  </div>
+</body>
+
+</html>

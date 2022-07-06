@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, request, render_template, make_response, session
+from flask import Flask, redirect, url_for, request, render_template, make_response, session, jsonify
 from werkzeug.exceptions import MethodNotAllowed
 from pymongo import MongoClient, cursor
 #from twilio.rest import Client
@@ -30,9 +30,10 @@ cuentas = db.reports
 #############################################################
 
 @app.route("/")
-def usuarios():
+def home():
     cursor = cuentas.find({})
-    users = []
+    user = []
     for doc in cursor:
-        users.append(doc)
-    return users
+        user.append(doc)
+
+    return render_template("/Retrieve.html", data=user)
