@@ -29,11 +29,33 @@ cuentas = db.reports
 # TwilioClient = Client(account_sid, auth_token)
 #############################################################
 
-@app.route("/")
-def home():
-    cursor = cuentas.find({})
-    user = []
-    for doc in cursor:
-        user.append(doc)
 
-    return render_template("/Retrieve.html", data=user)
+@app.route("/", methods=['GET'])
+def home():
+    
+    try:
+        cursor = cuentas.find({})
+        user = []
+        for doc in cursor:
+            user.append(doc)
+
+        return render_template("/users.html", data=user)
+    except Exception as e:
+        return jsonify({"response": e})
+
+
+@app.route('/insert', methods=["POST"])
+def insert():
+
+    user = {
+        "matricula": request.form['nombre'],
+        "nombre": request.form['apellido'],
+        "correo": request.form['correo'],
+        "telefono": request.form['telefono']
+    }
+    try:
+        cuentas.insert_one(user)
+        return jsonify({"response": "ok"})
+
+    except Exception as e:
+        return jsonify({"response": e})
