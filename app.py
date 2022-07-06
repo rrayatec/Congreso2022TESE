@@ -66,14 +66,11 @@ def graph():
 @ app.route('/insert', methods=["POST"])
 def insert():
 
-    user = {
-        "matricula": request.form['nombre'],
-        "nombre": request.form['apellido'],
-        "correo": request.form['correo'],
-        "telefono": request.form['telefono']
+    intent = {
+        "intent": request.form['instent']
     }
     try:
-        cuentas.insert_one(user)
+        cuentas.insert_one(intent)
         return jsonify({"response": "ok"})
 
     except Exception as e:
