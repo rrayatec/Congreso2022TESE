@@ -48,7 +48,7 @@ def home():
 @app.route("/graph", methods=['GET'])
 def graph():
     try:
-        data = json.dumps([1.0, 2.0, 3.0, 3, 4, 5])
+        data = json.dumps([0, 10, 5, 2, 20, 30, 45])
         labels = [
             'January',
             'February',

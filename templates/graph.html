@@ -10,42 +10,55 @@
 </head>
 
 <body style="padding: 40px">
+    <table class="table">
+        <tr>
+            <td><a class="nav-link" href="/">Users</a></td>
+        </tr>
+        <tr>
 
-    <div>
-        <canvas id="myChart"></canvas>
+        </tr>
+    </table>
+
+
+    <style>
+        #container {
+            width: 40%;
+            
+            border: 1px solid red;
+
+
+            margin: 0px auto;
+            text-align: center;
+        }
+
+        canvas {
+            
+
+        }
+    </style>
+    <div id="container">
+        <canvas width="100%" height="100%" id="myChart"></canvas>
     </div>
-    <script>
-        const labels = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-        ];
 
-        const data = {
-            labels: labels = labels,
-            datasets: [{
-                label: 'My First dataset',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [0, 10, 5, 2, 20, 30, 45],
-            }]
-        };
-
-        const config = {
-            type: 'line',
-            data: data,
-            options: {}
-        };
-    </script>
+    {% block javascript %}
     <script>
         const myChart = new Chart(
-            document.getElementById('myChart'),
-            config
+            document.getElementById('myChart'), {
+            type: 'line',
+            data: {
+                labels: ({{ labels | tojson }}),
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: ({{ data | tojson }}),
+        }]
+            },
+        options: { }
+        }
         );
     </script>
+    {% endblock %}
 </body>
 
 </html>
