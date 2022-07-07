@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for, request, render_template, make_respo
 from werkzeug.exceptions import MethodNotAllowed
 from pymongo import MongoClient, cursor
 # from twilio.rest import Client
+from collections import Counter
 import pymongo
 import datetime
 from decouple import config
@@ -33,32 +34,40 @@ cuentas = db.reports
 
 @app.route("/", methods=['GET'])
 def home():
-
     try:
         cursor = cuentas.find({})
-        user = []
+        intents = []
+        resultantList = []
         for doc in cursor:
-            user.append(doc)
+            intents.append(doc["intent"])
 
-        return render_template("/users.html", data=user)
+        for element in intents:
+            if element not in resultantList:
+                resultantList.append(element)
+
+        return render_template("/users.html", data=resultantList)
     except Exception as e:
         return jsonify({"response": e})
 
 
 @app.route("/graph", methods=['GET'])
 def graph():
-    try:
-        data = json.dumps([0, 10, 5, 2, 20, 30, 45])
-        labels = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-        ]
 
-        return render_template("/graph.html", data=data, labels=labels)
+    try:
+        data = []
+        resultantList = []
+
+        cursor = cuentas.find({})
+        intents = []
+        for doc in cursor:
+            intents.append(doc["intent"])
+
+        for element in intents:
+            if element not in resultantList:
+                resultantList.append(element)
+                data.append(intents.count(element))
+
+        return render_template("/graph.html", data=data, labels=resultantList)
     except Exception as e:
         return jsonify({"response": e})
 
@@ -66,11 +75,10 @@ def graph():
 @ app.route('/insert', methods=["POST"])
 def insert():
 
-    intent = {
-        "intent": request.form['intent']
-    }
     try:
-        cuentas.insert_one(intent)
+        cuentas.insert_one({
+            "intent": request.json["intent"]
+        })
         return jsonify({"response": "ok"})
 
     except Exception as e:

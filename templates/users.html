@@ -18,25 +18,14 @@
 
     </tr>
     <tr>
-      <th scope="col">Nombre</th>
-      <th scope="col">Apellido</th>
-      <th scope="col">Password</th>
-      <th scope="col">Edad</th>
-      <th scope="col"></th>
-      <th scope="col"></th>
-
-
+      <th scope="col">Intent</th>
     </tr>
     {% for i in data %}
-    <form method="POST" action="/update">
+    <form method="POST" action="/">
       <tr>
-        <td><input type="text" name="Nombre" value="{{i.client_name}}"></td>
-        <td><input type="text" name="Apellido" value="{{i.last_name}}"></td>
-        <td><input type="password" name="password" value="{{i.password}}"></td>
-        <td><input type="password" name="age" value="{{i.age}}"></td>
-        <td><button type="submit" class="btn btn-primary">Update</button></td>
+        <td><input type="text" name="Intent" value="{{i}}"></td>
     </form>
-    <td><a href="/delete/{{i.password}}"><button class="btn btn-primary">Delete</button></a></td>
+    <!-- <td><a href="/delete/{{i.password}}"><button class="btn btn-primary">Delete</button></a></td> -->
     </tr>
 
     {% endfor %}
